@@ -8,13 +8,16 @@ interface LetterButtonProps {
 
 const LetterButton: React.FC<LetterButtonProps> = ({ letter, onClick }) => {
   return (
-    <button
-      className="letterButton"
-      onClick={() => onClick(letter)}
-      style={{ margin: "5px" }}
-    >
-      {letter}
-    </button>
+    <>
+      <button
+        className="letterButton"
+        onClick={() => onClick(letter)}
+        style={{ margin: "5px" }}
+      >
+        {letter}
+      </button>
+    </>
+    
   );
 };
 

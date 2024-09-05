@@ -1,15 +1,16 @@
-import { ReactElement } from "react";
-
-interface ButtonProps {
+import { ReactElement, ButtonHTMLAttributes } from 'react';
+import './Button.css';
+ 
+interface BotaoProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     children: ReactElement | string;
 }
-
-const Button = (props: ButtonProps) => {
+ 
+const Button = ({ children, ...rest }: BotaoProps) => {
     return (
-        <button className='button'>
-            {props.children}
-        </button>
-    )
+<button className='button' {...rest}>
+            {children}
+</button>
+    );
 }
-
+ 
 export default Button;
