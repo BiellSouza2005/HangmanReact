@@ -73,7 +73,7 @@ const Hangman: React.FC = () => {
   return (
     <div className="container">
       <div>
-        <div className="imagem"><img src={`img${wrongGuesses}.png`} alt="Hangman"/></div>
+        <div className="imagem"><img src={`./public/imagens/forca${wrongGuesses}.png`} alt="Hangman"/></div>
       </div>
       <div className="containerButtons">
         <h2>{clue}</h2>
