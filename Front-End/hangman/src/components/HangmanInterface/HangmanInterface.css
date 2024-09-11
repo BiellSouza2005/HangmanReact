@@ -1,0 +1,37 @@
+html {
+    background-color: #1C1C1C;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+}
+
+.containerButtons {
+    display: flex;
+    flex-direction: column;
+}
+
+.btns {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+    width: 50%;
+    justify-content: center;
+    margin: 0 50px 0 auto;
+}
+
+.containerButtons h2 {
+    margin-left: 755px;
+    background-color: #6F2DBD;
+    color: #FFFFFF;
+    width: 13%;
+    border-radius: 5px;
+}
+
+.guess-word {
+    margin-left: 450px;
+    margin-bottom: 20px;
+    color: #FFFFFF;
+}
+
