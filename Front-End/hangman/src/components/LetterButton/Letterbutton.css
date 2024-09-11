@@ -1,0 +1,10 @@
+.letterButton {
+    
+    background-color: #6F2DBD;
+
+}
+ 
+button:hover {
+    opacity: 0.8;
+    transform: scale(1.05);
+}

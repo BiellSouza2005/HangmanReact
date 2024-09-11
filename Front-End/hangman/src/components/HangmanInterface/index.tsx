@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import LetterButton from "../LetterButton";
 import getWord from "../../Words";
+import './HangmanInterface.css'
+import Button from "../Button";
 
 const Hangman: React.FC = () => {
   const [word, setWord] = useState<string[]>([]);
@@ -69,12 +71,16 @@ const Hangman: React.FC = () => {
   };
 
   return (
-    <div>
-      <h2>Dica: {clue}</h2>
-      <div className="guess-word">{renderWord()}</div>
-      <img src={`img${wrongGuesses}.png`} alt="Hangman" />
-      <div className="btns">{renderButtons()}</div>
-      <button onClick={initGame}>Nova Palavra</button>
+    <div className="container">
+      <div>
+        <div className="imagem"><img src={`img${wrongGuesses}.png`} alt="Hangman"/></div>
+      </div>
+      <div className="containerButtons">
+        <h2>{clue}</h2>
+        <div className="guess-word">{renderWord()}</div>
+        <div className="btns">{renderButtons()}</div>
+        <Button onClick={initGame}>Nova Palavra</Button> 
+      </div>
     </div>
   );
 };
