@@ -1,14 +1,7 @@
 .letterButton {
-    width: 30px;
+    
     background-color: #6F2DBD;
-    border: 1px solid;
-    transition:all 0.25s;
-    height: 30px;
-    font-size: 20px;
-    cursor: pointer;
-    color: #FFFFFF;
-    border: none;
-    border-radius: 3px;
+
 }
  
 button:hover {
