@@ -64,6 +64,7 @@ useEffect(() => {
  
       if (wrongGuesses + 1 === maxWrongGuesses) {
         setTimeout(() => {
+          setScore(score - score)
           alert("Perdeu :/");
           setShowNewWordButton(true);
           setIsGameActive(false);
