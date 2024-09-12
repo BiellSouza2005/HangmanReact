@@ -3,6 +3,8 @@ import LetterButton from "../LetterButton";
 import getWord from "../../Words";
 import './HangmanInterface.css'
 import Button from "../Button";
+import ScoreBoard from "../ScoreBoard";
+
 
 const Hangman: React.FC = () => {
   const [word, setWord] = useState<string[]>([]);
@@ -11,7 +13,8 @@ const Hangman: React.FC = () => {
   const [wrongGuesses, setWrongGuesses] = useState<number>(0);
   const [showNewWordButton, setShowNewWordButton] = useState<boolean>(false);
   const [isGameActive, setIsGameActive] = useState<boolean>(true);
-
+  const [score, setScore] = useState<number>(0);
+  
   const maxWrongGuesses = 8;
   const timeout = 100;
  
@@ -56,6 +59,7 @@ const Hangman: React.FC = () => {
  
       if (allLettersGuessed) {
         setTimeout(() => {
+          setScore(score + 1)
           alert("Ganhou!!!");
           setShowNewWordButton(true);
           setIsGameActive(false);
@@ -100,6 +104,9 @@ const Hangman: React.FC = () => {
         <div className="guess-word">{renderWord()}</div>
         <div className="btns">{renderButtons()}</div>
         {showNewWordButton && <Button onClick={initGame}>Jogar novamente</Button>}
+      </div>
+      <div className="scoreBoard">
+          <ScoreBoard score={score}/>
       </div>
     </div>
   );
