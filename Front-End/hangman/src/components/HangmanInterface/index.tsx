@@ -9,11 +9,12 @@ const Hangman: React.FC = () => {
   const [clue, setClue] = useState<string>("");
   const [guessedLetters, setGuessedLetters] = useState<string[]>([]);
   const [wrongGuesses, setWrongGuesses] = useState<number>(1);
-
+  const [showNewWordButton, setShowNewWordButton] = useState<boolean>(false);
+  
   useEffect(() => {
     initGame();
   }, []);
-
+  
   const initGame = () => {
     const { word, clue } = getWord();
     const wordWithoutAccent = word
@@ -25,15 +26,18 @@ const Hangman: React.FC = () => {
     setClue(clue);
     setGuessedLetters([]);
     setWrongGuesses(1);
+    setShowNewWordButton(false);
   };
-
+  
   const verifyLetter = (letter: string) => {
     if (!word.includes(letter)) {
       setWrongGuesses(wrongGuesses + 1);
 
-      if (wrongGuesses + 1 === 7) {
-        alert("Perdeu :/");
-        initGame();
+      if (wrongGuesses + 1 === 8) {
+        setTimeout(() => {
+          alert("Perdeu :/");
+          setShowNewWordButton(true);
+        }, 100);
       }
     } else {
       setGuessedLetters([...guessedLetters, letter]);
@@ -45,7 +49,7 @@ const Hangman: React.FC = () => {
       if (allLettersGuessed) {
         setTimeout(() => {
           alert("Ganhou!!!");
-          initGame();
+          setShowNewWordButton(true);
         }, 100);
       }
     }
@@ -79,7 +83,7 @@ const Hangman: React.FC = () => {
         <h2>{clue}</h2>
         <div className="guess-word">{renderWord()}</div>
         <div className="btns">{renderButtons()}</div>
-        <Button onClick={initGame}>Nova Palavra</Button> 
+        {showNewWordButton && <Button onClick={initGame}>Nova Palavra</Button>}
       </div>
     </div>
   );
