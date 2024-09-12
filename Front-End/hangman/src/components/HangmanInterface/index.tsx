@@ -8,44 +8,46 @@ const Hangman: React.FC = () => {
   const [word, setWord] = useState<string[]>([]);
   const [clue, setClue] = useState<string>("");
   const [guessedLetters, setGuessedLetters] = useState<string[]>([]);
-  const [wrongGuesses, setWrongGuesses] = useState<number>(1);
+  const [wrongGuesses, setWrongGuesses] = useState<number>(0);
   const [showNewWordButton, setShowNewWordButton] = useState<boolean>(false);
-  
+ 
   useEffect(() => {
     initGame();
   }, []);
-  
+ 
   const initGame = () => {
     const { word, clue } = getWord();
     const wordWithoutAccent = word
       .normalize("NFD")
       .replace(/[\u0300-\u036f]/g, "")
       .toUpperCase();
-
+ 
     setWord(Array.from(wordWithoutAccent));
     setClue(clue);
     setGuessedLetters([]);
     setWrongGuesses(1);
     setShowNewWordButton(false);
   };
-  
+ 
   const verifyLetter = (letter: string) => {
+    if (guessedLetters.includes(letter)) return;
+ 
+    setGuessedLetters((prev) => [...prev, letter]);
+ 
     if (!word.includes(letter)) {
-      setWrongGuesses(wrongGuesses + 1);
-
+      setWrongGuesses((prev) => prev + 1);
+ 
       if (wrongGuesses + 1 === 8) {
         setTimeout(() => {
           alert("Perdeu :/");
           setShowNewWordButton(true);
-        }, 100);
+        },100)
       }
     } else {
-      setGuessedLetters([...guessedLetters, letter]);
-
-      const allLettersGuessed = word.every((char) =>
-        guessedLetters.includes(char) || char === letter
+      const allLettersGuessed = word.every(
+        (char) => guessedLetters.includes(char) || char === letter
       );
-
+ 
       if (allLettersGuessed) {
         setTimeout(() => {
           alert("Ganhou!!!");
@@ -54,7 +56,7 @@ const Hangman: React.FC = () => {
       }
     }
   };
-
+ 
   const renderWord = () => {
     return word.map((letter, index) =>
       guessedLetters.includes(letter) ? (
@@ -64,13 +66,18 @@ const Hangman: React.FC = () => {
       )
     );
   };
-
+ 
   const renderButtons = () => {
     const alphabet = Array.from(Array(26)).map((_, i) =>
       String.fromCharCode(65 + i)
     );
     return alphabet.map((letter) => (
-      <LetterButton key={letter} letter={letter} onClick={verifyLetter} />
+      <LetterButton
+        key={letter}
+        letter={letter}
+        onClick={verifyLetter}
+        disabled={guessedLetters.includes(letter)}
+      />
     ));
   };
 
