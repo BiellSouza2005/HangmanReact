@@ -3,12 +3,15 @@ import LetterButton from "../LetterButton";
 import getWord from "../../Words";
 import './HangmanInterface.css'
 import Button from "../Button";
+import ScoreBoard from "../ScoreBoard";
+
 
 const Hangman: React.FC = () => {
   const [word, setWord] = useState<string[]>([]);
   const [clue, setClue] = useState<string>("");
   const [guessedLetters, setGuessedLetters] = useState<string[]>([]);
   const [wrongGuesses, setWrongGuesses] = useState<number>(1);
+  const [score, setScore] = useState<number>(0);
 
   useEffect(() => {
     initGame();
@@ -44,6 +47,7 @@ const Hangman: React.FC = () => {
 
       if (allLettersGuessed) {
         setTimeout(() => {
+          setScore(score + 1)
           alert("Ganhou!!!");
           initGame();
         }, 100);
@@ -80,6 +84,9 @@ const Hangman: React.FC = () => {
         <div className="guess-word">{renderWord()}</div>
         <div className="btns">{renderButtons()}</div>
         <Button onClick={initGame}>Nova Palavra</Button> 
+      </div>
+      <div className="scoreBoard">
+          <ScoreBoard score={score}/>
       </div>
     </div>
   );
