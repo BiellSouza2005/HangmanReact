@@ -94,7 +94,7 @@ const Hangman: React.FC = () => {
         <h2>{clue}</h2>
         <div className="guess-word">{renderWord()}</div>
         <div className="btns">{renderButtons()}</div>
-        {showNewWordButton && <Button onClick={initGame}>Nova Palavra</Button>}
+        {showNewWordButton && <Button onClick={initGame}>Jogar novamente</Button>}
       </div>
     </div>
   );
