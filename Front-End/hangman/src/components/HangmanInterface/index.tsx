@@ -14,13 +14,30 @@ const Hangman: React.FC = () => {
   const [showNewWordButton, setShowNewWordButton] = useState<boolean>(false);
   const [isGameActive, setIsGameActive] = useState<boolean>(true);
   const [score, setScore] = useState<number>(0);
+  const [isScoreLoaded, setIsScoreLoaded] = useState<boolean>(false);
   
   const maxWrongGuesses = 8;
   const timeout = 100;
  
-  useEffect(() => {
-    initGame();
-  }, []);
+useEffect(() => {
+  const savedScore = sessionStorage.getItem("score");
+  if (savedScore !== null) {
+    setScore(Number(savedScore));
+  } 
+  setIsScoreLoaded(true); 
+}, []);
+
+useEffect(() => {
+  if (isScoreLoaded !== false) {
+    sessionStorage.setItem("score", score.toString());
+  }
+}, [score, isScoreLoaded]);
+
+useEffect(() => {
+  if (isScoreLoaded) {
+    initGame(); 
+  }
+}, [isScoreLoaded]);
  
   const initGame = () => {
     const { word, clue } = getWord();
