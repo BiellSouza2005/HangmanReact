@@ -10,6 +10,7 @@ const Hangman: React.FC = () => {
   const [guessedLetters, setGuessedLetters] = useState<string[]>([]);
   const [wrongGuesses, setWrongGuesses] = useState<number>(0);
   const [showNewWordButton, setShowNewWordButton] = useState<boolean>(false);
+  const [isGameActive, setIsGameActive] = useState<boolean>(true);
  
   useEffect(() => {
     initGame();
@@ -27,10 +28,11 @@ const Hangman: React.FC = () => {
     setGuessedLetters([]);
     setWrongGuesses(1);
     setShowNewWordButton(false);
+    setIsGameActive(true);
   };
  
   const verifyLetter = (letter: string) => {
-    if (guessedLetters.includes(letter)) return;
+    if (!isGameActive || guessedLetters.includes(letter)) return; 
  
     setGuessedLetters((prev) => [...prev, letter]);
  
@@ -41,6 +43,7 @@ const Hangman: React.FC = () => {
         setTimeout(() => {
           alert("Perdeu :/");
           setShowNewWordButton(true);
+          setIsGameActive(false);
         },100)
       }
     } else {
@@ -52,6 +55,7 @@ const Hangman: React.FC = () => {
         setTimeout(() => {
           alert("Ganhou!!!");
           setShowNewWordButton(true);
+          setIsGameActive(false);
         }, 100);
       }
     }
@@ -76,7 +80,7 @@ const Hangman: React.FC = () => {
         key={letter}
         letter={letter}
         onClick={verifyLetter}
-        disabled={guessedLetters.includes(letter)}
+        disabled={!isGameActive || guessedLetters.includes(letter)}
       />
     ));
   };
