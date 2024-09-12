@@ -11,6 +11,9 @@ const Hangman: React.FC = () => {
   const [wrongGuesses, setWrongGuesses] = useState<number>(0);
   const [showNewWordButton, setShowNewWordButton] = useState<boolean>(false);
   const [isGameActive, setIsGameActive] = useState<boolean>(true);
+
+  const maxWrongGuesses = 8;
+  const timeout = 100;
  
   useEffect(() => {
     initGame();
@@ -39,12 +42,12 @@ const Hangman: React.FC = () => {
     if (!word.includes(letter)) {
       setWrongGuesses((prev) => prev + 1);
  
-      if (wrongGuesses + 1 === 8) {
+      if (wrongGuesses + 1 === maxWrongGuesses) {
         setTimeout(() => {
           alert("Perdeu :/");
           setShowNewWordButton(true);
           setIsGameActive(false);
-        },100)
+        },timeout)
       }
     } else {
       const allLettersGuessed = word.every(
@@ -56,7 +59,7 @@ const Hangman: React.FC = () => {
           alert("Ganhou!!!");
           setShowNewWordButton(true);
           setIsGameActive(false);
-        }, 100);
+        }, timeout);
       }
     }
   };
@@ -72,8 +75,10 @@ const Hangman: React.FC = () => {
   };
  
   const renderButtons = () => {
-    const alphabet = Array.from(Array(26)).map((_, i) =>
-      String.fromCharCode(65 + i)
+    const alphabetLength = 26
+    const asciTableInitialLetter = 65
+    const alphabet = Array.from(Array(alphabetLength)).map((_, i) =>
+      String.fromCharCode(asciTableInitialLetter + i)
     );
     return alphabet.map((letter) => (
       <LetterButton
