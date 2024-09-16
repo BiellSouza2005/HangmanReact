@@ -40,14 +40,14 @@ const Hangman: React.FC = () => {
 
   const initGame = async () => {
     try {
-      const { word, clue } = await getWordAndClue(); // Obter a palavra e a dica
+      const { word, clue } = await getWordAndClue();
       const wordWithoutAccent = word
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "")
         .toUpperCase();
 
       setWord(Array.from(wordWithoutAccent));
-      setClue(clue); // Configurar a dica
+      setClue(clue); 
       setGuessedLetters([]);
       setWrongGuesses(1);
       setShowNewWordButton(false);
@@ -121,7 +121,7 @@ const Hangman: React.FC = () => {
         <div className="imagem"><img src={`./public/imagens/forca${wrongGuesses}.png`} alt="Hangman"/></div>
       </div>
       <div className="containerButtons">
-        <h2>{clue}</h2> {/* Exibindo a dica */}
+        <h2>{clue}</h2>
         <div className="guess-word">{renderWord()}</div>
         <div className="btns">{renderButtons()}</div>
         {showNewWordButton && <Button onClick={initGame}>Jogar novamente</Button>}
