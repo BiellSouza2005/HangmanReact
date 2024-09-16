@@ -1,22 +1,41 @@
-const words = [
-    { word: "Televisão", clue: "Objeto" },
-    { word: "Computador", clue: "Objeto" },
-    { word: "Bicicleta", clue: "Objeto" },
-    { word: "Mochila", clue: "Objeto" },
-    { word: "Pizza", clue: "Comida" },
-    { word: "Hamburguer", clue: "Comida" },
-    { word: "Brasil", clue: "País" },
-    { word: "Elefante", clue: "Animal" },
-    { word: "Leão", clue: "Animal" },
-    { word: "Tigre", clue: "Animal" },
-    { word: "Girafa", clue: "Animal" },
-    { word: "Cachorro", clue: "Animal" },
-    { word: "Gato", clue: "Animal" },
-    { word: "Papagaio", clue: "Animal" },
-];
-
-
-export default function getWord() {
-const index = Math.floor(Math.random() * words.length);
-return words[index];
-}
+export async function getWordAndClue() {
+    try {
+      let wordData;
+      let word = '';
+      
+      
+      do {
+        const randomWordResponse = await fetch('https://api.dicionario-aberto.net/random');
+        if (!randomWordResponse.ok) {
+          throw new Error('Erro ao buscar a palavra aleatória.');
+        }
+        
+        wordData = await randomWordResponse.json();
+        word = wordData.word.toUpperCase();
+      } while (word.includes('-')); // Continua enquanto a palavra contiver "-"
+  
+      const wordForPrefix = word.slice(0, -1).toLowerCase(); 
+  
+      
+      const prefixResponse = await fetch(`https://api.dicionario-aberto.net/prefix/${wordForPrefix}`);
+      if (!prefixResponse.ok) {
+        throw new Error('Erro ao buscar a dica da palavra.');
+      }
+      
+      const prefixData = await prefixResponse.json();
+  
+      
+      let clue = 'Dica não encontrada';
+      if (prefixData.length > 0 && prefixData[0].preview) {
+        clue = prefixData[0].preview
+          .replace(/<\/?span.*?>/g, '') 
+          .replace(/<\/?i.*?>/g, ''); 
+      }
+  
+      return { word, clue };
+    } catch (error) {
+      console.error('Erro ao obter palavra e dica:', error);
+      return { word: 'ERRO', clue: 'Erro ao buscar a palavra e a dica.' };
+    }
+  }
+  
