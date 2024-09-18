@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import LetterButton from "../LetterButton";
 import { getWordAndClue } from "../../Words";
 import './HangmanInterface.css';
-import Button from "../Button";
-import ScoreBoard from "../ScoreBoard";
 
 const Hangman: React.FC = () => {
   const [word, setWord] = useState<string[]>([]);
@@ -124,10 +122,6 @@ const Hangman: React.FC = () => {
         <h2>{clue}</h2>
         <div className="guess-word">{renderWord()}</div>
         <div className="btns">{renderButtons()}</div>
-        {showNewWordButton && <Button onClick={initGame}>Jogar novamente</Button>}
-      </div>
-      <div className="scoreBoard">
-          <ScoreBoard score={score}/>
       </div>
     </div>
   );
