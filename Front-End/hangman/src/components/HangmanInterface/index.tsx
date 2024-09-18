@@ -4,6 +4,8 @@ import { getWordAndClue } from "../../Words";
 import './HangmanInterface.css';
 import Button from "../Button";
 import ScoreBoard from "../ScoreBoard";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Hangman: React.FC = () => {
   const [word, setWord] = useState<string[]>([]);
@@ -70,7 +72,7 @@ const Hangman: React.FC = () => {
       if (wrongGuesses + 1 === maxWrongGuesses) {
         setTimeout(() => {
           setScore(score - score);
-          alert("Perdeu :/");
+          toast.error("Perdeu :/");
           setShowNewWordButton(true);
           setIsGameActive(false);
         }, timeout);
@@ -83,7 +85,7 @@ const Hangman: React.FC = () => {
       if (allLettersGuessed) {
         setTimeout(() => {
           setScore(score + 1);
-          alert("Ganhou!!!");
+          toast.success("Ganhou!!!");
           setShowNewWordButton(true);
           setIsGameActive(false);
         }, timeout);
@@ -134,6 +136,7 @@ const Hangman: React.FC = () => {
       <div className="scoreBoard">
           <ScoreBoard score={score}/>
       </div>
+      <ToastContainer />
     </div>
   );
 };
