@@ -16,7 +16,7 @@ const Hangman: React.FC = () => {
   const [isScoreLoaded, setIsScoreLoaded] = useState<boolean>(false);
   
   const maxWrongGuesses = 8;
-  const timeout = 100;
+  const timeoutInMilliSeconds = 100;
 
   useEffect(() => {
     const savedScore = sessionStorage.getItem("score");
@@ -71,7 +71,7 @@ const Hangman: React.FC = () => {
           alert("Perdeu :/");
           setShowNewWordButton(true);
           setIsGameActive(false);
-        }, timeout);
+        }, timeoutInMilliSeconds);
       }
     } else {
       const allLettersGuessed = word.every(
@@ -84,7 +84,7 @@ const Hangman: React.FC = () => {
           alert("Ganhou!!!");
           setShowNewWordButton(true);
           setIsGameActive(false);
-        }, timeout);
+        }, timeoutInMilliSeconds);
       }
     }
   };
