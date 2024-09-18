@@ -15,6 +15,8 @@ const Hangman: React.FC = () => {
   const [score, setScore] = useState<number>(0);
   const [isScoreLoaded, setIsScoreLoaded] = useState<boolean>(false);
   
+  console.log(word);
+
   const maxWrongGuesses = 8;
   const timeout = 100;
 
