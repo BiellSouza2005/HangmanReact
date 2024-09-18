@@ -102,20 +102,23 @@ const Hangman: React.FC = () => {
   };
 
   const renderButtons = () => {
-    const alphabetLength = 26;
-    const asciTableInitialLetter = 65;
+   const alphabetLength = 26;
+   const asciTableInitialLetter = 65;
     const alphabet = Array.from(Array(alphabetLength)).map((_, i) =>
       String.fromCharCode(asciTableInitialLetter + i)
-    );
-    return alphabet.map((letter) => (
+   );
+
+   return alphabet.map((letter) => (
       <LetterButton
         key={letter}
         letter={letter}
         onClick={verifyLetter}
         disabled={!isGameActive || guessedLetters.includes(letter)}
+        dataTestId={`letter-button-${letter}`} 
       />
     ));
   };
+
 
   return (
     <div className="container">
