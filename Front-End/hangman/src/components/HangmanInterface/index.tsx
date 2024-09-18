@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
 import LetterButton from "../LetterButton";
-import getWord from "../../Words";
-import './HangmanInterface.css'
+import { getWordAndClue } from "../../Words";
+import './HangmanInterface.css';
 import Button from "../Button";
 import ScoreBoard from "../ScoreBoard";
 
-
 const Hangman: React.FC = () => {
   const [word, setWord] = useState<string[]>([]);
-  const [clue, setClue] = useState<string>("");
+  const [clue, setClue] = useState<string>(""); 
   const [guessedLetters, setGuessedLetters] = useState<string[]>([]);
   const [wrongGuesses, setWrongGuesses] = useState<number>(0);
   const [showNewWordButton, setShowNewWordButton] = useState<boolean>(false);
@@ -18,66 +17,70 @@ const Hangman: React.FC = () => {
   
   const maxWrongGuesses = 8;
   const timeout = 100;
- 
-useEffect(() => {
-  const savedScore = sessionStorage.getItem("score");
-  if (savedScore !== null) {
-    setScore(Number(savedScore));
-  } 
-  setIsScoreLoaded(true); 
-}, []);
 
-useEffect(() => {
-  if (isScoreLoaded !== false) {
-    sessionStorage.setItem("score", score.toString());
-  }
-}, [score, isScoreLoaded]);
+  useEffect(() => {
+    const savedScore = sessionStorage.getItem("score");
+    if (savedScore !== null) {
+      setScore(Number(savedScore));
+    } 
+    setIsScoreLoaded(true); 
+  }, []);
 
-useEffect(() => {
-  if (isScoreLoaded) {
-    initGame(); 
-  }
-}, [isScoreLoaded]);
- 
-  const initGame = () => {
-    const { word, clue } = getWord();
-    const wordWithoutAccent = word
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .toUpperCase();
- 
-    setWord(Array.from(wordWithoutAccent));
-    setClue(clue);
-    setGuessedLetters([]);
-    setWrongGuesses(1);
-    setShowNewWordButton(false);
-    setIsGameActive(true);
+  useEffect(() => {
+    if (isScoreLoaded) {
+      sessionStorage.setItem("score", score.toString());
+    }
+  }, [score, isScoreLoaded]);
+
+  useEffect(() => {
+    if (isScoreLoaded) {
+      initGame(); 
+    }
+  }, [isScoreLoaded]);
+
+  const initGame = async () => {
+    try {
+      const { word, clue } = await getWordAndClue();
+      const wordWithoutAccent = word
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toUpperCase();
+
+      setWord(Array.from(wordWithoutAccent));
+      setClue(clue); 
+      setGuessedLetters([]);
+      setWrongGuesses(1);
+      setShowNewWordButton(false);
+      setIsGameActive(true);
+    } catch (error) {
+      console.error("Erro ao iniciar o jogo:", error);
+    }
   };
- 
+
   const verifyLetter = (letter: string) => {
     if (!isGameActive || guessedLetters.includes(letter)) return; 
- 
+
     setGuessedLetters((prev) => [...prev, letter]);
- 
+
     if (!word.includes(letter)) {
       setWrongGuesses((prev) => prev + 1);
- 
+
       if (wrongGuesses + 1 === maxWrongGuesses) {
         setTimeout(() => {
-          setScore(score - score)
+          setScore(score - score);
           alert("Perdeu :/");
           setShowNewWordButton(true);
           setIsGameActive(false);
-        },timeout)
+        }, timeout);
       }
     } else {
       const allLettersGuessed = word.every(
         (char) => guessedLetters.includes(char) || char === letter
       );
- 
+
       if (allLettersGuessed) {
         setTimeout(() => {
-          setScore(score + 1)
+          setScore(score + 1);
           alert("Ganhou!!!");
           setShowNewWordButton(true);
           setIsGameActive(false);
@@ -85,7 +88,7 @@ useEffect(() => {
       }
     }
   };
- 
+
   const renderWord = () => {
     return word.map((letter, index) =>
       guessedLetters.includes(letter) ? (
@@ -95,10 +98,10 @@ useEffect(() => {
       )
     );
   };
- 
+
   const renderButtons = () => {
-    const alphabetLength = 26
-    const asciTableInitialLetter = 65
+    const alphabetLength = 26;
+    const asciTableInitialLetter = 65;
     const alphabet = Array.from(Array(alphabetLength)).map((_, i) =>
       String.fromCharCode(asciTableInitialLetter + i)
     );
