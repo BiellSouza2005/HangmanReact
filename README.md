@@ -4,7 +4,7 @@
 ![GitHub language count](https://img.shields.io/github/languages/count/BiellSouza2005/HangmanReact?style=for-the-badge)
 ![Bitbucket open issues](https://img.shields.io/github/issues/BiellSouza2005/HangmanReact?style=for-the-badge)
 
-<img src="" alt="imagem do jogo" />
+<img src="Front-End/hangman/public/imagens/hangman.png" alt="imagem do jogo" />
 
 <p>O projeto "Hangman" é uma recriação do clássico jogo da forca. Nele, o jogador precisa adivinhar palavras antes que todas as tentativas se esgotem, utilizando um teclado fornecido no jogo.</p>
 
