@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from "react";
 import LetterButton from "../LetterButton";
+import Footer from "../Footer";
 import { getWordAndClue } from "../../Words";
 import './HangmanInterface.css';
-import Button from "../Button";
-import ScoreBoard from "../ScoreBoard";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Hangman: React.FC = () => {
   const [word, setWord] = useState<string[]>([]);
-  const [clue, setClue] = useState<string>(""); 
+  const [clue, setClue] = useState<string>("");
   const [guessedLetters, setGuessedLetters] = useState<string[]>([]);
   const [wrongGuesses, setWrongGuesses] = useState<number>(0);
   const [showNewWordButton, setShowNewWordButton] = useState<boolean>(false);
@@ -21,27 +20,27 @@ const Hangman: React.FC = () => {
 
   const maxWrongGuesses = 8;
   const timeout = 100;
-
+ 
   useEffect(() => {
     const savedScore = sessionStorage.getItem("score");
     if (savedScore !== null) {
       setScore(Number(savedScore));
-    } 
-    setIsScoreLoaded(true); 
+    }
+    setIsScoreLoaded(true);
   }, []);
-
+ 
   useEffect(() => {
     if (isScoreLoaded) {
       sessionStorage.setItem("score", score.toString());
     }
   }, [score, isScoreLoaded]);
-
+ 
   useEffect(() => {
     if (isScoreLoaded) {
-      initGame(); 
+      initGame();
     }
   }, [isScoreLoaded]);
-
+ 
   const initGame = async () => {
     try {
       const { word, clue } = await getWordAndClue();
@@ -49,9 +48,9 @@ const Hangman: React.FC = () => {
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "")
         .toUpperCase();
-
+ 
       setWord(Array.from(wordWithoutAccent));
-      setClue(clue); 
+      setClue(clue);
       setGuessedLetters([]);
       setWrongGuesses(1);
       setShowNewWordButton(false);
@@ -60,15 +59,15 @@ const Hangman: React.FC = () => {
       console.error("Erro ao iniciar o jogo:", error);
     }
   };
-
+ 
   const verifyLetter = (letter: string) => {
-    if (!isGameActive || guessedLetters.includes(letter)) return; 
-
+    if (!isGameActive || guessedLetters.includes(letter)) return;
+ 
     setGuessedLetters((prev) => [...prev, letter]);
-
+ 
     if (!word.includes(letter)) {
       setWrongGuesses((prev) => prev + 1);
-
+ 
       if (wrongGuesses + 1 === maxWrongGuesses) {
         setTimeout(() => {
           setScore(score - score);
@@ -81,7 +80,7 @@ const Hangman: React.FC = () => {
       const allLettersGuessed = word.every(
         (char) => guessedLetters.includes(char) || char === letter
       );
-
+ 
       if (allLettersGuessed) {
         setTimeout(() => {
           setScore(score + 1);
@@ -92,7 +91,7 @@ const Hangman: React.FC = () => {
       }
     }
   };
-
+ 
   const renderWord = () => {
     return word.map((letter, index) =>
       guessedLetters.includes(letter) ? (
@@ -102,7 +101,7 @@ const Hangman: React.FC = () => {
       )
     );
   };
-
+ 
   const renderButtons = () => {
    const alphabetLength = 26;
    const asciTableInitialLetter = 65;
@@ -123,22 +122,28 @@ const Hangman: React.FC = () => {
 
 
   return (
-    <div className="container">
-      <div>
-        <div className="imagem"><img src={`./public/imagens/forca${wrongGuesses}.png`} alt="Hangman"/></div>
+    <div>
+      <div className="container">
+        <div>
+          <div className="imagem"><img src={`./public/imagens/forca${wrongGuesses}.png`} alt="Hangman"/></div>
+        </div>
+        <div className="containerButtons">
+          <h2>{clue}</h2>
+          <div className="guess-word">{renderWord()}</div>
+          <div className="btns">{renderButtons()}</div>
+        </div>
       </div>
-      <div className="containerButtons">
-        <h2>{clue}</h2>
-        <div className="guess-word">{renderWord()}</div>
-        <div className="btns">{renderButtons()}</div>
-        {showNewWordButton && <Button onClick={initGame}>Jogar novamente</Button>}
-      </div>
-      <div className="scoreBoard">
-          <ScoreBoard score={score}/>
+      <div className="footer">
+        <Footer
+          showNewWordButton={showNewWordButton}
+          initGame={initGame}
+          score={score}
+        />
       </div>
       <ToastContainer />
     </div>
+   
   );
 };
-
+ 
 export default Hangman;
