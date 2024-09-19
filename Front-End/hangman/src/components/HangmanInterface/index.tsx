@@ -15,6 +15,7 @@ const Hangman: React.FC = () => {
   const [isGameActive, setIsGameActive] = useState<boolean>(true);
   const [score, setScore] = useState<number>(0);
   const [isScoreLoaded, setIsScoreLoaded] = useState<boolean>(false);
+  const [letterStatus, setLetterStatus] = useState<{ [key: string]: string}>({});
   
   console.log(word);
 
@@ -52,6 +53,8 @@ const Hangman: React.FC = () => {
       setWord(Array.from(wordWithoutAccent));
       setClue(clue);
       setGuessedLetters([]);
+      setLetterStatus({});
+      setWrongGuesses(1);
       setWrongGuesses(1);
       setShowNewWordButton(false);
       setIsGameActive(true);
@@ -66,7 +69,11 @@ const Hangman: React.FC = () => {
     setGuessedLetters((prev) => [...prev, letter]);
  
     if (!word.includes(letter)) {
-      setWrongGuesses((prev) => prev + 1);
+      setWrongGuesses((prev) => prev + 1)
+      setLetterStatus((prevStatus) => ({
+        ...prevStatus,
+        [letter]: "wrong"
+        }));
  
       if (wrongGuesses + 1 === maxWrongGuesses) {
         setTimeout(() => {
@@ -79,7 +86,12 @@ const Hangman: React.FC = () => {
     } else {
       const allLettersGuessed = word.every(
         (char) => guessedLetters.includes(char) || char === letter
-      );
+      )
+     
+      setLetterStatus((prevStatus) => ({
+        ...prevStatus,
+        [letter]: "correct"
+      }));
  
       if (allLettersGuessed) {
         setTimeout(() => {
@@ -116,6 +128,7 @@ const Hangman: React.FC = () => {
         onClick={verifyLetter}
         disabled={!isGameActive || guessedLetters.includes(letter)}
         dataTestId={`letter-button-${letter}`} 
+        status={letterStatus[letter]}
       />
     ));
   };
@@ -137,7 +150,7 @@ const Hangman: React.FC = () => {
         <Footer
           showNewWordButton={showNewWordButton}
           initGame={initGame}
-          score={score}
+          score ={score}
         />
       </div>
       <ToastContainer />

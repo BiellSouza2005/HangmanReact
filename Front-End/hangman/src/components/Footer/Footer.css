@@ -1,0 +1,28 @@
+.footer {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.newGame {
+    margin-left: auto;
+}
+
+.newGameButton {
+    background-image: url('../../assets/newGame.svg');
+    background-repeat: no-repeat;
+    font-weight: 500;
+    background-position: right center; /* Alinha o ícone à esquerda e centraliza verticalmente */
+    background-size: 60px 60px; /* Define o tamanho do ícone */
+    padding-right: 70px; /* Adiciona espaço à esquerda para o ícone não sobrepor o texto */
+    padding-left: 10px; /* Espaço à direita do texto */
+    height: 70px; /* Altura do botão */
+    line-height: 1.0; /* Centraliza o texto verticalmente */
+    font-size: 24px; /* Tamanho do texto */
+    border: none; /* Remover borda do botão */
+    cursor: pointer; /* Aplica o cursor de ponteiro */
+    display: inline-block; /* Garante que o botão seja inline para ficar ao lado de outros elementos */
+    white-space: pre-line; /* Permite a quebra de linha onde houver espaços */
+    text-align: left; /* Centraliza o texto */
+  }
+  

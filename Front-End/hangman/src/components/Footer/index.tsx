@@ -10,13 +10,14 @@ interface FooterProps {
 
 const Footer: React.FC<FooterProps> = ({ showNewWordButton, initGame, score }) => {
   return (
-    <div>
-      <div>
-        {showNewWordButton && <Button onClick={initGame}>Jogar novamente</Button>}
-      </div>
+    <div className='footer'>
       <div className="scoreBoard">
-        <ScoreBoard score={score} />
+        <ScoreBoard score={score} dataTestId={`score`} />
       </div>
+      <div className='newGame'>
+        {showNewWordButton && <Button className='newGameButton' dataTestId='btn-newGame' onClick={initGame}>{"Jogar\nNovamente"}</Button>}
+      </div>
+
     </div>
   );
 };
