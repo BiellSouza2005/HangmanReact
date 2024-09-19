@@ -1,4 +1,5 @@
 import "./ScoreBoard.css"
+import Score from '../../assets/score.svg'
 
 import React from "react";
 
@@ -8,8 +9,9 @@ interface ScoreBoardProps {
 
 const scoreBoard: React.FC<ScoreBoardProps> = ({score}) => {
     return(
-        <div>
-            <h3>Pontuação: {score}</h3>
+        <div className="score">
+            <img src={Score} />
+            <h3>{score}</h3>
         </div>
     )
 }

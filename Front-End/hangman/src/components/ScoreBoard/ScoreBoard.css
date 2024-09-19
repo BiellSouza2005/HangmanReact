@@ -1,0 +1,13 @@
+.score {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    margin-top: 20px;
+    margin-right: auto;
+}
+
+h3 {
+    font-family: var(--fonte-logo);
+    font-weight: 700;
+    font-size: 40px;
+}

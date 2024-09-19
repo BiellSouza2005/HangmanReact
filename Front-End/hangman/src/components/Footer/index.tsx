@@ -1,6 +1,7 @@
 import Button from '../Button';
 import ScoreBoard from '../ScoreBoard';
 import './Footer.css';
+import NewGame from '../../assets/newGame.svg'
 
 interface FooterProps {
   showNewWordButton: boolean;
@@ -10,12 +11,12 @@ interface FooterProps {
 
 const Footer: React.FC<FooterProps> = ({ showNewWordButton, initGame, score }) => {
   return (
-    <div>
-      <div>
-        {showNewWordButton && <Button onClick={initGame}>Jogar novamente</Button>}
-      </div>
+    <div className='footer'>
       <div className="scoreBoard">
         <ScoreBoard score={score} />
+      </div>
+      <div className='newGame'>
+        {showNewWordButton && <Button className='newGameButton' onClick={initGame}>{"Jogar\nNovamente"}</Button>}
       </div>
     </div>
   );
