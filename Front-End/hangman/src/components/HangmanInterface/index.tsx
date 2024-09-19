@@ -53,6 +53,7 @@ const Hangman: React.FC = () => {
       setWord(Array.from(wordWithoutAccent));
       setClue(clue);
       setGuessedLetters([]);
+      setLetterStatus({});
       setWrongGuesses(1);
       setShowNewWordButton(false);
       setIsGameActive(true);
