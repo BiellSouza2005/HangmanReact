@@ -6,12 +6,16 @@ interface LetterButtonProps {
   onClick: (letter: string) => void;
   disabled: boolean;
   dataTestId?: string;
+  status?: string;
 }
  
-const LetterButton: React.FC<LetterButtonProps> = ({ letter, onClick, disabled, dataTestId }) => {
+const LetterButton: React.FC<LetterButtonProps> = ({ letter, onClick, disabled, dataTestId, status }) => {
+
+  const buttonClass = status === "correct" ? "correct" : status === "wrong" ? "wrong": "";
+
   return (
 <button
-      className="letterButton"
+      className={`letterButton ${buttonClass}`}
       onClick={() => onClick(letter)}
       style={{ margin: "5px" }}
       disabled={disabled}
