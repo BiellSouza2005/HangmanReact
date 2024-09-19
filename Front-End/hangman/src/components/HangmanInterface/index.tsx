@@ -15,6 +15,7 @@ const Hangman: React.FC = () => {
   const [isGameActive, setIsGameActive] = useState<boolean>(true);
   const [score, setScore] = useState<number>(0);
   const [isScoreLoaded, setIsScoreLoaded] = useState<boolean>(false);
+  const [letterStatus, setLetterStatus] = useState<{ [key: string]: string}>({});
   
   console.log(word);
 
