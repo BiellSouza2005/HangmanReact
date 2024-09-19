@@ -1,7 +1,15 @@
 .letterButton {
-    
-    background-color: #6F2DBD;
+    margin: 5px;
+    cursor: pointer;
+    background-color: #5400BF;
+}
 
+.letterButton.correct {
+    background-color: #16BA1C;
+}
+
+.letterButton.wrong {
+    background-color: #DF1D1D;
 }
  
 button:hover {
