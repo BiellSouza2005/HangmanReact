@@ -3,11 +3,12 @@ import './Button.css';
  
 interface BotaoProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     children: ReactElement | string;
+    dataTestId?: string;
 }
  
-const Button = ({ children, ...rest }: BotaoProps) => {
+const Button = ({dataTestId, children, ...rest }: BotaoProps) => {
     return (
-<button className='button' {...rest}>
+<button className='button' {...rest} data-test={dataTestId}>
             {children}
 </button>
     );

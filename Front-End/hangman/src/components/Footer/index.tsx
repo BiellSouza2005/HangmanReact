@@ -12,7 +12,7 @@ const Footer: React.FC<FooterProps> = ({ showNewWordButton, initGame, score }) =
   return (
     <div>
       <div>
-        {showNewWordButton && <Button onClick={initGame}>Jogar novamente</Button>}
+        {showNewWordButton && <Button dataTestId={`btn-newGame`} onClick={initGame}>Jogar novamente</Button>}
       </div>
       <div className="scoreBoard">
         <ScoreBoard score={score} dataTestId={`score`} />
