@@ -1,7 +1,6 @@
 import Button from '../Button';
 import ScoreBoard from '../ScoreBoard';
 import './Footer.css';
-import NewGame from '../../assets/newGame.svg'
 
 interface FooterProps {
   showNewWordButton: boolean;
