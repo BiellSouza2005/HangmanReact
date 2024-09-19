@@ -67,7 +67,11 @@ const Hangman: React.FC = () => {
     setGuessedLetters((prev) => [...prev, letter]);
  
     if (!word.includes(letter)) {
-      setWrongGuesses((prev) => prev + 1);
+      setWrongGuesses((prev) => prev + 1)
+      setLetterStatus((prevStatus) => ({
+        ...prevStatus,
+        [letter]: "correct"
+        }));
  
       if (wrongGuesses + 1 === maxWrongGuesses) {
         setTimeout(() => {
@@ -80,7 +84,12 @@ const Hangman: React.FC = () => {
     } else {
       const allLettersGuessed = word.every(
         (char) => guessedLetters.includes(char) || char === letter
-      );
+      )
+      
+      setLetterStatus((prevStatus) => ({
+        ...prevStatus,
+        [letter]: "wrong"
+      }));
  
       if (allLettersGuessed) {
         setTimeout(() => {
@@ -116,7 +125,8 @@ const Hangman: React.FC = () => {
         letter={letter}
         onClick={verifyLetter}
         disabled={!isGameActive || guessedLetters.includes(letter)}
-        dataTestId={`letter-button-${letter}`} 
+        dataTestId={`letter-button-${letter}`}
+        status={letterStatus[letter]}
       />
     ));
   };
