@@ -70,7 +70,7 @@ const Hangman: React.FC = () => {
       setWrongGuesses((prev) => prev + 1)
       setLetterStatus((prevStatus) => ({
         ...prevStatus,
-        [letter]: "correct"
+        [letter]: "wrong"
         }));
  
       if (wrongGuesses + 1 === maxWrongGuesses) {
@@ -88,7 +88,7 @@ const Hangman: React.FC = () => {
       
       setLetterStatus((prevStatus) => ({
         ...prevStatus,
-        [letter]: "wrong"
+        [letter]: "correct"
       }));
  
       if (allLettersGuessed) {
