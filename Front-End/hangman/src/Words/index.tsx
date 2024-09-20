@@ -1,43 +1,45 @@
-export async function getWordAndClue() {
-    try {
-      let wordData;
-      let word = '';
+import axios from 'axios';
 
-      do {
-        const randomWordResponse = await fetch('https://api.dicionario-aberto.net/random');
-        if (!randomWordResponse.ok) {
-          throw new Error('Erro ao buscar a palavra aleatória.');
-        }
-        
-        wordData = await randomWordResponse.json();
-        word = wordData.word.toUpperCase();
-      } while (word.includes('-')); 
-  
-      const wordForPrefix = word.slice(0, -1).toLowerCase(); 
-  
-  
-      const prefixResponse = await fetch(`https://api.dicionario-aberto.net/prefix/${wordForPrefix}`);
-      if (!prefixResponse.ok) {
-        throw new Error('Erro ao buscar a dica da palavra.');
+export async function getWordAndClue() {
+  try {
+    let wordData;
+    let word = '';
+
+    // Do enquanto para evitar palavras com "-"
+    do {
+      const randomWordResponse = await axios.get('https://api.dicionario-aberto.net/random');
+      
+      if (randomWordResponse.status !== 200) {
+        throw new Error('Erro ao buscar a palavra aleatória.');
       }
       
-      const prefixData = await prefixResponse.json();
-  
+      wordData = randomWordResponse.data;
+      word = wordData.word.toUpperCase();
+    } while (word.includes('-'));
+
+    const wordForPrefix = word.slice(0, -1).toLowerCase();
+
+    const prefixResponse = await axios.get(`https://api.dicionario-aberto.net/prefix/${wordForPrefix}`);
     
-      let clue = 'Dica não encontrada';
-      if (prefixData.length > 0 && prefixData[0].preview) {
-        clue = prefixData[0].preview
-          .replace(/<\/?span.*?>/g, '') 
-          .replace(/<\/?i.*?>/g, '')   
-          .replace(/<\/?sup.*?>/g, '')   
-          .split(';')[1]                // Divide a string pelo ";" e pega a terceira parte (entre o primeiro e o segundo ";")
-          .trim();                      // Remove espaços em branco extras
-      }
-  
-      return { word, clue };
-    } catch (error) {
-      console.error('Erro ao obter palavra e dica:', error);
-      return { word: 'ERRO', clue: 'Erro ao buscar a palavra e a dica.' }; // Valor de fallback
+    if (prefixResponse.status !== 200) {
+      throw new Error('Erro ao buscar a dica da palavra.');
     }
+
+    const prefixData = prefixResponse.data;
+
+    let clue = 'Dica não encontrada';
+    if (prefixData.length > 0 && prefixData[0].preview) {
+      clue = prefixData[0].preview
+        .replace(/<\/?span.*?>/g, '')  // Remove tags span
+        .replace(/<\/?i.*?>/g, '')     // Remove tags itálico
+        .replace(/<\/?sup.*?>/g, '')   // Remove tags superscript
+        .split(';')[1]                 // Pega a dica após o primeiro ";"
+        .trim();                       // Remove espaços extras
+    }
+
+    return { word, clue };
+  } catch (error) {
+    console.error('Erro ao obter palavra e dica:', error);
+    return { word: 'ERRO', clue: 'Erro ao buscar a palavra e a dica.' };
   }
-  
+}
