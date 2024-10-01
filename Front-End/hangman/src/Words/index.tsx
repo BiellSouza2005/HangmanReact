@@ -1,45 +1,24 @@
-import axios from 'axios';
-
-export async function getWordAndClue() {
+import axios from "axios";
+ 
+// Interface correta para a resposta da API
+interface WordResponse {
+  wordName: string;
+  clue: string;
+}
+ 
+// Função que busca palavra e dica da API
+export async function getWordAndClue(): Promise<{ word: string; clue: string }> {
   try {
-    let wordData;
-    let word = '';
-
-    // Do enquanto para evitar palavras com "-"
-    do {
-      const randomWordResponse = await axios.get('https://api.dicionario-aberto.net/random');
-      
-      if (randomWordResponse.status !== 200) {
-        throw new Error('Erro ao buscar a palavra aleatória.');
-      }
-      
-      wordData = randomWordResponse.data;
-      word = wordData.word.toUpperCase();
-    } while (word.includes('-'));
-
-    const wordForPrefix = word.slice(0, -1).toLowerCase();
-
-    const prefixResponse = await axios.get(`https://api.dicionario-aberto.net/prefix/${wordForPrefix}`);
-    
-    if (prefixResponse.status !== 200) {
-      throw new Error('Erro ao buscar a dica da palavra.');
-    }
-
-    const prefixData = prefixResponse.data;
-
-    let clue = 'Dica não encontrada';
-    if (prefixData.length > 0 && prefixData[0].preview) {
-      clue = prefixData[0].preview
-        .replace(/<\/?span.*?>/g, '')  // Remove tags span
-        .replace(/<\/?i.*?>/g, '')     // Remove tags itálico
-        .replace(/<\/?sup.*?>/g, '')   // Remove tags superscript
-        .split(';')[1]                 // Pega a dica após o primeiro ";"
-        .trim();                       // Remove espaços extras
-    }
-
-    return { word, clue };
+    const response = await axios.get<WordResponse>('http://localhost:5155/api/hangman/getRandom', {
+      headers: {
+        'Accept': 'application/json',
+      },
+    });    
+    // Renomeando os campos "text" para "word" e "tip" para "clue"
+    console.log(response.data); 
+    return { word: response.data.wordName, clue: response.data.clue };
   } catch (error) {
-    console.error('Erro ao obter palavra e dica:', error);
-    return { word: 'ERRO', clue: 'Erro ao buscar a palavra e a dica.' };
+    console.error('Erro ao buscar a palavra:', error);
+    throw new Error('Erro ao buscar a palavra e a dica.');
   }
 }
