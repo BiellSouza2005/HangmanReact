@@ -15,7 +15,7 @@ export async function getWordAndClue(): Promise<{ word: string; clue: string }> 
       },
     });    
     // Renomeando os campos "text" para "word" e "tip" para "clue"
-    console.log(response.data); 
+    //console.log(response.data); 
     return { word: response.data.maskedWord, clue: response.data.clue };
   } catch (error) {
     console.error('Erro ao buscar a palavra:', error);

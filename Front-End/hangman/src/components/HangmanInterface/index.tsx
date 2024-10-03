@@ -65,63 +65,74 @@ const Hangman: React.FC = () => {
     }
   };
  
-  // Verifica se a letra está na palavra
-  // const verifyLetter = (letter: string) => {
-  //   if (!isGameActive || guessedLetters.includes(letter)) return;
- 
-  //   setGuessedLetters((prev) => [...prev, letter]);
- 
-  //   if (!word.includes(letter)) {
-  //     setWrongGuesses((prev) => prev + 1);
-  //     setLetterStatus((prevStatus) => ({
-  //       ...prevStatus,
-  //       [letter]: "wrong"
-  //     }));
- 
-  //     if (wrongGuesses + 1 === maxWrongGuesses) {
-  //       setTimeout(() => {
-  //         setScore(0); // Reseta a pontuação
-  //         toast.error("Perdeu :/");
-  //         setShowNewWordButton(true);
-  //         setIsGameActive(false);
-  //       }, timeout);
-  //     }
-  //   } else {
-  //     const allLettersGuessed = word.every(
-  //       (char) => guessedLetters.includes(char) || char === letter
-  //     );
-     
-  //     setLetterStatus((prevStatus) => ({
-  //       ...prevStatus,
-  //       [letter]: "correct"
-  //     }));
- 
-  //     if (allLettersGuessed) {
-  //       setTimeout(() => {
-  //         setScore(score + 1);
-  //         toast.success("Ganhou!!!");
-  //         setShowNewWordButton(true);
-  //         setIsGameActive(false);
-  //       }, timeout);
-  //     }
-  //   }
-  // };
-
-  const verifyLetter = async (letter:string) =>{
-    console.log('letter');
-    console.log(letter);
-    const response = await axios.post('http://localhost:5155/api/hangman/guessLetter',letter,{headers: {
-      'Content-Type': 'application/json'
-    }})
-    .then(function (response) {
+  //Verifica se a letra está na palavra
+  const verifyLetter = (letter: string) => {
+    if (!isGameActive || guessedLetters.includes(letter)) return;
+      const response = axios.post('http://localhost:5155/api/hangman/guessLetter',letter,{headers: {
+        'Content-Type': 'application/json'
+      }})
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
       console.log(response);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-    console.log(response);
+ 
+    setGuessedLetters((prev) => [...prev, letter]);
+ 
+    if (!word.includes(letter)) {
+      setWrongGuesses((prev) => prev + 1);
+      setLetterStatus((prevStatus) => ({
+        ...prevStatus,
+        [letter]: "wrong"
+      }));
+ 
+      if (wrongGuesses + 1 === maxWrongGuesses) {
+        setTimeout(() => {
+          setScore(0); // Reseta a pontuação
+          toast.error("Perdeu :/");
+          setShowNewWordButton(true);
+          setIsGameActive(false);
+        }, timeout);
+      }
+    } else {
+      const allLettersGuessed = word.every(
+        (char) => guessedLetters.includes(char) || char === letter
+      );
+     
+      setLetterStatus((prevStatus) => ({
+        ...prevStatus,
+        [letter]: "correct"
+      }));
+ 
+      if (allLettersGuessed) {
+        setTimeout(() => {
+          setScore(score + 1);
+          toast.success("Ganhou!!!");
+          setShowNewWordButton(true);
+          setIsGameActive(false);
+        }, timeout);
+      }
+    }
+  };
+
+ // --------------------------------------------------------------
+  // const verifyLetter = async (letter:string) =>{
+  //   console.log('letter');
+  //   console.log(letter);
+  //   const response = await axios.post('http://localhost:5155/api/hangman/guessLetter',letter,{headers: {
+  //     'Content-Type': 'application/json'
+  //   }})
+  //   .then(function (response) {
+  //     console.log(response);
+  //   })
+  //   .catch(function (error) {
+  //     console.log(error);
+  //   });
+  //   console.log(response);
     
-  }
+  // }
 
   // Renderiza a palavra com as letras adivinhadas
   const renderWord = () => {
