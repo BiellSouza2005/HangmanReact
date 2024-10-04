@@ -90,19 +90,24 @@ const Hangman: React.FC = () => {
       );
       
       console.log(response.data); // Verificar o que a API está retornando
-      
-      const { UpdatedWord, GameWon, GameLost, CurrentGuess } = response.data;
+
+      const result = response.data;
+
+      console.log(result.gameWon);
+      console.log(result.gameLost);
+      console.log(result.currentGuess);
+      console.log(result.updatedWord);
       
  
       // Atualiza o estado da palavra
-      if (UpdatedWord) {
-        setWord(UpdatedWord.split("")); 
+      if (result.updatedWord) {
+        setWord(result.updatedWord.split("")); 
       } else {
         console.error("UpdatedWord não está definido.");
       }
       
  
-      if (CurrentGuess) {
+      if (result.currentGuess) {
         // Atualiza o status da letra como "correta"
         setLetterStatus((prevStatus) => ({
           ...prevStatus,
@@ -110,7 +115,7 @@ const Hangman: React.FC = () => {
         }));
  
         // Verifica se o jogo foi vencido
-        if (GameWon) {
+        if (result.gameWon) {
           setTimeout(() => {
             setScore((prevScore) => prevScore + 1);
             toast.success("Ganhou!!!");
@@ -129,7 +134,7 @@ const Hangman: React.FC = () => {
         setWrongGuesses((prev) => prev + 1);
  
         // Verifica se o jogo foi perdido
-        if (GameLost) {
+        if (result.gameLost) {
           setTimeout(() => {
             setScore(0); // Reseta a pontuação
             toast.error("Perdeu :/");
