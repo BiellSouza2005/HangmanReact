@@ -4,10 +4,11 @@ import axios from "axios";
 interface WordResponse {
   maskedWord: string;
   clue: string;
+  token: string;
 }
  
 // Função que busca palavra e dica da API
-export async function getWordAndClue(): Promise<{ word: string; clue: string }> {
+export async function getWordAndClue(): Promise<{ word: string; clue: string; token: string }> {
   try {
     const response = await axios.get<WordResponse>('http://localhost:5155/api/hangman/NewGame', {
       headers: {
@@ -16,7 +17,7 @@ export async function getWordAndClue(): Promise<{ word: string; clue: string }> 
     });    
     // Renomeando os campos "text" para "word" e "tip" para "clue"
     //console.log(response.data); 
-    return { word: response.data.maskedWord, clue: response.data.clue };
+    return { word: response.data.maskedWord, clue: response.data.clue , token: response.data.token};
   } catch (error) {
     console.error('Erro ao buscar a palavra:', error);
     throw new Error('Erro ao buscar a palavra e a dica.');

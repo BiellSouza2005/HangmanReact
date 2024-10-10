@@ -9,7 +9,8 @@ import axios from "axios";
  
 const Hangman: React.FC = () => {
   const [word, setWord] = useState<string[]>([]); // Palavra mascarada
-  const [clue, setClue] = useState<string>(""); // Dica
+  const [clue, setClue] = useState<string>(""); // Dica 
+  const [token, setToken] = useState<string>("");
   const [guessedLetters, setGuessedLetters] = useState<string[]>([]); // Letras adivinhadas
   const [wrongGuesses, setWrongGuesses] = useState<number>(0); // Número de erros
   const [showNewWordButton, setShowNewWordButton] = useState<boolean>(false); // Mostrar botão de nova palavra
@@ -18,7 +19,7 @@ const Hangman: React.FC = () => {
   const [isScoreLoaded, setIsScoreLoaded] = useState<boolean>(false); // Estado da pontuação carregada
   const [letterStatus, setLetterStatus] = useState<{ [key: string]: string }>({}); // Status das letras
  
-  const maxWrongGuesses = 7;
+  //const maxWrongGuesses = 7;
   const timeout = 100;
  
   // Carrega pontuação do sessionStorage
@@ -48,7 +49,9 @@ const Hangman: React.FC = () => {
   // Função que inicia o jogo, buscando palavra e dica
   const initGame = async () => {
     try {
-      const { word: fetchedWord, clue } = await getWordAndClue();
+      const { word: fetchedWord, clue, token} = await getWordAndClue();
+      setToken(token); 
+
       const wordWithoutAccent = fetchedWord
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "")
@@ -85,6 +88,7 @@ const Hangman: React.FC = () => {
         {
           headers: {
             "Content-Type": "application/json",
+            "token": token,
           },
         }
       );
