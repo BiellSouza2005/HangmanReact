@@ -10,7 +10,7 @@ interface WordResponse {
 // Função que busca palavra e dica da API
 export async function getWordAndClue(): Promise<{ word: string; clue: string; token: string }> {
   try {
-    const response = await axios.get<WordResponse>('http://localhost:5155/api/hangman/NewGame', {
+    const response = await axios.get<WordResponse>('https://localhost:7246/api/hangman/NewGame', {
       headers: {
         'Accept': 'application/json',
       },

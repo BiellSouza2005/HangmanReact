@@ -83,7 +83,7 @@ const Hangman: React.FC = () => {
  
       // Envia a letra para a API
       const response = await axios.post(
-        "http://localhost:5155/api/hangman/guessLetter",
+        "https://localhost:7246/api/hangman/GuessLetter",
         letter,
         {
           headers: {
