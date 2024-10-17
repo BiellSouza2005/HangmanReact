@@ -18,7 +18,8 @@ const Hangman: React.FC = () => {
   const [score, setScore] = useState<number>(0); // Pontuação
   const [isScoreLoaded, setIsScoreLoaded] = useState<boolean>(false); // Estado da pontuação carregada
   const [letterStatus, setLetterStatus] = useState<{ [key: string]: string }>({}); // Status das letras
- 
+  const apiUrl = import.meta.env.VITE_API_BASIC_URL
+
   //const maxWrongGuesses = 7;
   const timeout = 100;
  
@@ -83,8 +84,8 @@ const Hangman: React.FC = () => {
  
       // Envia a letra para a API
       const response = await axios.post(
-        "https://localhost:7246/api/hangman/GuessLetter",
-        letter,
+        `${apiUrl}Hangman/GuessLetter`,
+        {letter},
         {
           headers: {
             "Content-Type": "application/json",
