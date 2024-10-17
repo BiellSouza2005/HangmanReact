@@ -1,22 +1,22 @@
+// LetterButton.tsx
 import React from "react";
-import './LetterButton.css'
-
+import './LetterButton.css';
+ 
 interface LetterButtonProps {
   letter: string;
-  onClick: (letter: string) => void;
+  onClick: () => void; // Função sem parâmetros
   disabled: boolean;
   dataTestId?: string;
   status?: string;
 }
  
 const LetterButton: React.FC<LetterButtonProps> = ({ letter, onClick, disabled, dataTestId, status }) => {
-
-  const buttonClass = status === "correct" ? "correct" : status === "wrong" ? "wrong": "";
-
+  const buttonClass = status === "correct" ? "correct" : status === "wrong" ? "wrong" : "";
+ 
   return (
 <button
       className={`letterButton ${buttonClass}`}
-      onClick={() => onClick(letter)}
+      onClick={onClick} // Chama a função diretamente
       style={{ margin: "5px" }}
       disabled={disabled}
       data-test={dataTestId}
@@ -25,5 +25,5 @@ const LetterButton: React.FC<LetterButtonProps> = ({ letter, onClick, disabled, 
 </button>
   );
 };
-
+ 
 export default LetterButton;
