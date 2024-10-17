@@ -15,7 +15,12 @@ Antes de começar, verifique se você atendeu aos seguintes requisitos:
 - Fazer a instalação do `<NodeJS versão 20.9.0>`
 - Fazer instalação de um `<editor de código>`, estamos utilizando o Visual Studio Code
 - Fazer instalação do `<Git`> para clonar nosso repositório
-- Você tem uma máquina `<Windows>`.
+- Você tem uma máquina `<Windows>`
+- Faça o clone do repositório backend e siga as instruções do readme
+
+  ```
+  git clone https://github.com/Siq-Andre/hangman-backend
+  ```
 
 ## 🚀 Instalando HangmanReact
 
