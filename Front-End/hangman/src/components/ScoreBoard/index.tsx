@@ -1,15 +1,18 @@
 import "./ScoreBoard.css"
-
+import Score from '../../assets/score.svg'
 import React from "react";
 
 interface ScoreBoardProps {
   score: number;
+  dataTestId?: string; 
 }
 
-const scoreBoard: React.FC<ScoreBoardProps> = ({score}) => {
+const scoreBoard: React.FC<ScoreBoardProps> = ({score, dataTestId}) => {
     return(
-        <div>
-            <h3>Pontuação: {score}</h3>
+            
+        <div className="score">
+            <img src={Score} />
+            <h3 data-test={dataTestId} >{score}</h3>
         </div>
     )
 }
