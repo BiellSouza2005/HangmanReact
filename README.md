@@ -105,8 +105,8 @@ Agradecemos às seguintes pessoas que contribuíram para este projeto:
       </a>
     </td>
     <td align="center">
-      <a href="https://github.com/sc4zuki" title="GitHub do Kevin Suzuki">
-        <img src="https://github.com/sc4zuki.png" width="100px;" alt="Foto do Kevin Suzuki no GitHub"/><br>
+      <a href="https://github.com/KevinSuzuki" title="GitHub do Kevin Suzuki">
+        <img src="https://github.com/KevinSuzuki.png" width="100px;" alt="Foto do Kevin Suzuki no GitHub"/><br>
         <sub>
           <b>Kevin Suzuki</b>
         </sub>
