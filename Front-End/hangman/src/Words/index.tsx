@@ -1,4 +1,6 @@
 import axios from "axios";
+
+const apiUrl = import.meta.env.VITE_API_BASIC_URL;
  
 // Interface correta para a resposta da API
 interface WordResponse {
@@ -10,7 +12,7 @@ interface WordResponse {
 // Função que busca palavra e dica da API
 export async function getWordAndClue(): Promise<{ word: string; clue: string; token: string }> {
   try {
-    const response = await axios.get<WordResponse>('https://localhost:7246/api/hangman/NewGame', {
+    const response = await axios.get<WordResponse>(`${apiUrl}hangman/NewGame`, {
       headers: {
         'Accept': 'application/json',
       },
